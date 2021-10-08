@@ -1,18 +1,67 @@
-function playSound(e) {
-  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-    console.log(key);
-
-    if (!audio) return; //Stops the function  from running altogether
-    audio.currentTime = 0; //Rewind to the start
-    audio.play();
-    key.classList.add('playing');  
-}
-function removeTransition(e) {
-    if (e.propertyName !== 'transform') return;
-    this.classList.remove('playing');
+function handleClick() {
+  var buttonhtml = this.innerHTML;
+  makeSound(buttonhtml);
+  buttonAnimation(buttonhtml);
 };
 
-const keys = document.querySelectorAll('.key');
-keys.forEach(key => key.addEventListener('transitionend', removeTransition));
-window.addEventListener('keydown', playSound);
+function makeSound(key) {
+  buttonAnimation(key);
+  switch (key) {
+    case "A":
+      var audio = new Audio('sounds/clap.wav');
+      audio.play();
+      break;
+    case "S":
+      var audio = new Audio('sounds/hihat.wav');
+      audio.play();
+      break;
+    case "D":
+      var audio = new Audio('sounds/kick.wav');
+      audio.play();
+      break;
+    case "F":
+      var audio = new Audio('sounds/openhat.wav');
+      audio.play();
+      break;
+    case "G":
+      var audio = new Audio('sounds/boom.wav');
+      audio.play();
+      break;
+    case "H":
+      var audio = new Audio('sounds/ride.wav');
+      audio.play();
+      break;
+    case "J":
+      var audio = new Audio('sounds/snare.wav');
+      audio.play();
+      break;
+    case "K":
+      var audio = new Audio('sounds/tom.wav');
+      audio.play();
+      break;
+    case "L":
+      var audio = new Audio('sounds/tink.wav');
+      audio.play();
+      break;
+    default:
+      return;
+  }
+}
+
+function buttonAnimation(currentKey) {
+  document.querySelector("." + currentKey).classList.add("playing");
+
+  setTimeout(function () {
+    document.querySelector("." + currentKey).classList.remove("playing");
+  }, 100);
+};
+
+var totalButtons = document.querySelectorAll('.key').length;
+for (var i = 0;i < totalButtons;i++)
+{
+  document.querySelectorAll('.key')[i].addEventListener('click', handleClick);
+}
+
+document.addEventListener('keydown', function (event) {
+  makeSound(event.key.toUpperCase());
+});
